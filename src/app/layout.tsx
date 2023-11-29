@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
+import ThemeProvider from '@/components/theme-provider';
+import ThemeSelector from '@/components/ThemeSelector';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -17,10 +19,17 @@ export default function RootLayout({
 	return (
 		<html lang='en'>
 			<body className={inter.className}>
-				<nav>
-					<h1>Recipes for You</h1>
-				</nav>
-				{children}
+				<ThemeProvider
+					attribute='class'
+					defaultTheme='system'
+					enableSystem
+					disableTransitionOnChange>
+					<nav className='flex justify-between'>
+						<h1>Recipes for You</h1>
+						<ThemeSelector />
+					</nav>
+					{children}
+				</ThemeProvider>
 			</body>
 		</html>
 	);

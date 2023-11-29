@@ -1,3 +1,6 @@
+//! data from db.ts
+import data from '../../public/db';
+
 //todo card
 import {
 	Card,
@@ -10,22 +13,19 @@ import {
 //todo Avatar
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 //todo badge
-import { Badge, badgeVariants } from '@/components/ui/badge';
+import { Badge } from '@/components/ui/badge';
 //todo button
 import { Button } from '@/components/ui/button';
 
-async function getRecipies(): Promise<Recipe[]> {
-	const res = await fetch('http://localhost:4000/recipes');
-	const result = await res.json();
-
+async function getRecipies(res: Recipe[]): Promise<Recipe[]> {
 	//! delay response
 	await new Promise((resolve) => setTimeout(resolve, 3000));
 
-	return result;
+	return res;
 }
 
 export default async function Home() {
-	const recipes = await getRecipies();
+	const recipes = await getRecipies(data);
 
 	return (
 		<main>

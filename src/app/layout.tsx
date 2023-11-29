@@ -24,11 +24,13 @@ export default function RootLayout({
 					defaultTheme='system'
 					enableSystem
 					disableTransitionOnChange>
-					<nav className='flex justify-between'>
-						<h1>Recipes for You</h1>
-						<ThemeSelector />
-					</nav>
-					{children}
+					<div className='m-4'>
+						<nav className='flex justify-between'>
+							<h1>Recipes for You</h1>
+							<ThemeSelector />
+						</nav>
+						{children}
+					</div>
 				</ThemeProvider>
 			</body>
 		</html>

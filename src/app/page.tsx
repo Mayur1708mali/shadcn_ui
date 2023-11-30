@@ -1,5 +1,4 @@
-//! data from db.ts
-import data from '../../public/db';
+import axios from 'axios';
 
 //todo card
 import {
@@ -17,22 +16,25 @@ import { Badge } from '@/components/ui/badge';
 //todo button
 import { Button } from '@/components/ui/button';
 
-async function getRecipies(res: Recipe[]): Promise<Recipe[]> {
+async function getRecipies(): Promise<Recipe[]> {
+	const res = await fetch('http://localhost:3000/api');
+	const result = await res.json();
+
 	//! delay response
 	await new Promise((resolve) => setTimeout(resolve, 3000));
 
-	return res;
+	return result;
 }
 
 export default async function Home() {
-	const recipes = await getRecipies(data);
+	const recipes = await getRecipies();
 
 	return (
 		<main>
 			<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
 				{recipes.map((recipe) => (
 					<Card
-						key={recipe.id}
+						key={recipe._id}
 						className='flex flex-col justify-between'>
 						<CardHeader className='flex-row gap-4 items-center'>
 							<Avatar>

@@ -1,3 +1,5 @@
+'use client';
+
 //todo card
 import {
 	Card,
@@ -14,25 +16,24 @@ import { Badge } from '@/components/ui/badge';
 //todo button
 import { Button } from '@/components/ui/button';
 
-import { getCldOgImageUrl } from 'next-cloudinary';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
-async function getRecipies(): Promise<Recipe[]> {
-	const res = await fetch('http://localhost:3000/api');
+export default function Home() {
+	const [recipes, setRecipes] = useState<Recipe[]>([]);
 
-	if (!res.ok) {
-		throw new Error('Failed to fetch data');
-	}
+	useEffect(() => {
+		async function getRecipies() {
+			const res = await axios.get('/api');
+			const result: Recipe[] = res.data;
 
-	const data = await res.json();
+			//! delay response
+			await new Promise((resolve) => setTimeout(resolve, 3000));
 
-	//! delay response
-	await new Promise((resolve) => setTimeout(resolve, 3000));
-
-	return data;
-}
-
-export default async function Home() {
-	const recipes = await getRecipies();
+			setRecipes(result);
+		}
+		getRecipies();
+	}, []);
 
 	return (
 		<main>

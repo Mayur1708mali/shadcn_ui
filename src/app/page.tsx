@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 //todo card
 import {
 	Card,
@@ -16,14 +14,21 @@ import { Badge } from '@/components/ui/badge';
 //todo button
 import { Button } from '@/components/ui/button';
 
+import { getCldOgImageUrl } from 'next-cloudinary';
+
 async function getRecipies(): Promise<Recipe[]> {
 	const res = await fetch('http://localhost:3000/api');
-	const result = await res.json();
+
+	if (!res.ok) {
+		throw new Error('Failed to fetch data');
+	}
+
+	const data = await res.json();
 
 	//! delay response
 	await new Promise((resolve) => setTimeout(resolve, 3000));
 
-	return result;
+	return data;
 }
 
 export default async function Home() {
@@ -38,7 +43,7 @@ export default async function Home() {
 						className='flex flex-col justify-between'>
 						<CardHeader className='flex-row gap-4 items-center'>
 							<Avatar>
-								<AvatarImage src={`/img/${recipe.image}`} />
+								<AvatarImage src={recipe.image} />
 								<AvatarFallback>
 									{recipe.title.slice(0, 2)}
 								</AvatarFallback>

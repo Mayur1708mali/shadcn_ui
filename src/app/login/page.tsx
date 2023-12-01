@@ -25,6 +25,7 @@ const formSchema = z.object({
 
 export default function LoginPage() {
 	const router = useRouter();
+
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -36,20 +37,14 @@ export default function LoginPage() {
 		if (values.password !== '') {
 			const data = JSON.stringify({ password: values.password });
 
-			const res: any = await fetch('/api/login', {
-				method: 'POST',
-				headers: {
-					Accept: 'application/json',
-					'Content-Type': 'application/json',
-				},
-				body: data,
-			});
+			const res: any = await axios.post('/api/login', data);
 
-			if (res.ok) {
+			if (res.data.success) {
+				window.location.reload();
 				router.push('/admin');
 			}
 
-			console.table(res);
+			console.log(res);
 		}
 	}
 

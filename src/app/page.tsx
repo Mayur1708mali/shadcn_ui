@@ -19,6 +19,7 @@ import { Button } from '@/components/ui/button';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Loading from './loading';
+import { Recipe } from '../../types';
 
 export default function Home() {
 	const [recipes, setRecipes] = useState<Recipe[]>([]);

@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
+
 import ThemeProvider from '@/components/theme-provider';
-import ThemeSelector from '@/components/ThemeSelector';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
+import { cookies } from 'next/headers';
+import Nav from '@/components/Nav';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,6 +18,14 @@ export default function RootLayout({
 }: {
 	children: React.ReactNode;
 }) {
+	const cookieStore = cookies();
+	const cookie = cookieStore.get('token');
+	let tok = '';
+
+	if (cookie !== undefined) {
+		tok = cookie.value;
+	}
+
 	return (
 		<html lang='en'>
 			<body className={inter.className}>
@@ -27,15 +35,7 @@ export default function RootLayout({
 					enableSystem
 					disableTransitionOnChange>
 					<div className='m-4'>
-						<nav className='flex justify-between'>
-							<h1>Recipes for You</h1>
-							<div className='flex items-center gap-4'>
-								<Button>
-									<Link href='/login'>Login</Link>
-								</Button>
-								<ThemeSelector />
-							</div>
-						</nav>
+						<Nav tok={tok} />
 						{children}
 					</div>
 				</ThemeProvider>
@@ -43,3 +43,13 @@ export default function RootLayout({
 		</html>
 	);
 }
+
+// {tok ? (
+// 	<Button>
+// 		<Link href='/admin'>Add Recipe</Link>
+// 	</Button>
+// ) : (
+// 	<Button>
+// 		<Link href='/login'>Login</Link>
+// 	</Button>
+// )}

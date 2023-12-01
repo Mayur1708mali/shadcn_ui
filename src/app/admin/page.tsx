@@ -74,7 +74,7 @@ export default function Admin() {
 			<Form {...form}>
 				<form
 					onSubmit={form.handleSubmit(onSubmit)}
-					className='mt-12 space-y-8 grid w-full max-w-sm items-center gap-1.5'>
+					className='mt-12 space-y-8 grid w-full max-w-sm items-center gap-1.5 '>
 					<FormField
 						control={form.control}
 						name='title'

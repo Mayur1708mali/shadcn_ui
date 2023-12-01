@@ -7,12 +7,12 @@ export async function POST(request: NextRequest) {
 
 	console.log(password);
 	try {
-		// if (password !== process.env.NEXT_PUBLIC_PWD) {
-		// 	return NextResponse.json(
-		// 		{ error: 'Invalid password' },
-		// 		{ status: 400 }
-		// 	);
-		// }
+		if (password !== process.env.NEXT_PUBLIC_PWD) {
+			return NextResponse.json(
+				{ error: 'Invalid password' },
+				{ status: 400 }
+			);
+		}
 
 		//create token data
 		const tokenData = {

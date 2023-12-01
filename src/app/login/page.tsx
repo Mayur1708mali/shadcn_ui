@@ -36,14 +36,16 @@ export default function LoginPage() {
 		if (values.password !== '') {
 			const data = JSON.stringify({ password: values.password });
 
-			const res: any = await axios.post('/api/login', data, {
+			const res: any = await fetch('/api/login', {
+				method: 'POST',
 				headers: {
 					Accept: 'application/json',
 					'Content-Type': 'application/json',
 				},
+				body: data,
 			});
 
-			if (res.data.success) {
+			if (res.ok) {
 				router.push('/admin');
 			}
 

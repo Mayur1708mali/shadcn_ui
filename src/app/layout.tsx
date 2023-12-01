@@ -29,7 +29,7 @@ export default function RootLayout({
 					<div className='m-4'>
 						<nav className='flex justify-between'>
 							<h1>Recipes for You</h1>
-							<div>
+							<div className='flex items-center gap-4'>
 								<Button>
 									<Link href='/login'>Login</Link>
 								</Button>

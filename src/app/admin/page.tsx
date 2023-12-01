@@ -21,6 +21,7 @@ import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 const formSchema = z.object({
 	title: z.string(),
@@ -31,6 +32,7 @@ const formSchema = z.object({
 });
 
 export default function Admin() {
+	const router = useRouter();
 	const [img, setImg] = useState('');
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -58,7 +60,9 @@ export default function Admin() {
 			const res = await axios.post('/api', data, {
 				headers: { 'Content-Type': 'application/json' },
 			});
-			console.log(res.data);
+			if (res.status === 200) {
+				router.push('/');
+			}
 		}
 	}
 

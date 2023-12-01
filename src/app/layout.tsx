@@ -3,6 +3,8 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import ThemeProvider from '@/components/theme-provider';
 import ThemeSelector from '@/components/ThemeSelector';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -27,7 +29,12 @@ export default function RootLayout({
 					<div className='m-4'>
 						<nav className='flex justify-between'>
 							<h1>Recipes for You</h1>
-							<ThemeSelector />
+							<div>
+								<Button>
+									<Link href='/login'>Login</Link>
+								</Button>
+								<ThemeSelector />
+							</div>
 						</nav>
 						{children}
 					</div>

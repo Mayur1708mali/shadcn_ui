@@ -1,5 +1,4 @@
 import { TrashIcon } from 'lucide-react';
-import { Recipe } from '../../types';
 import { Button } from './ui/button';
 import axios from 'axios';
 import { Dispatch, SetStateAction } from 'react';

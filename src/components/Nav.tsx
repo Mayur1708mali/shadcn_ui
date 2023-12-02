@@ -8,12 +8,6 @@ import { useEffect, useState } from 'react';
 export default function Nav(props: { tok: string }) {
 	const token = props.tok;
 
-	const [tok, setTok] = useState('');
-
-	useEffect(() => {
-		setTok(token);
-	}, [token]);
-
 	return (
 		<nav className='flex justify-between'>
 			<h1>

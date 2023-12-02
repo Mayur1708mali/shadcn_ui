@@ -36,3 +36,33 @@ export async function POST(request: NextRequest) {
 		return NextResponse.json({ error: error.message }, { status: 500 });
 	}
 }
+
+export async function PUT(request: NextRequest) {
+	const reqBody = await request.json();
+	const id: string = reqBody.id;
+
+	try {
+		const res = await Recipe.findByIdAndUpdate(id, reqBody);
+
+		return NextResponse.json({
+			message: 'Recipe Updated Successfully.',
+			success: true,
+			res,
+		});
+	} catch (error: any) {
+		return NextResponse.json({ error: error.message }, { status: 500 });
+	}
+}
+
+export async function DELETE(request: NextRequest) {
+	const reqBody = await request.json();
+	const id: string = reqBody.id;
+
+	try {
+		const res = await Recipe.findByIdAndDelete(id);
+
+		return NextResponse.json({ res });
+	} catch (error: any) {
+		return NextResponse.json({ error: error.message }, { status: 500 });
+	}
+}

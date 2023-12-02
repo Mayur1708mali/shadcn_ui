@@ -1,5 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
+import { cookies } from 'next/headers';
+
+export async function GET() {
+	const cookieStore = cookies();
+	const cookie = cookieStore.get('token');
+	console.log(cookie);
+
+	if (cookie === undefined) {
+		return NextResponse.json(
+			{ error: 'No cookies found' },
+			{ status: 400 }
+		);
+	}
+
+	return NextResponse.json({ cookie });
+}
 
 export async function POST(request: NextRequest) {
 	const reqBody = await request.json();

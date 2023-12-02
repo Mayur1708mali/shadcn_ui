@@ -19,9 +19,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import useEdit from '@/context/EditContext';
 
 const formSchema = z.object({
 	title: z.string(),
@@ -31,18 +32,21 @@ const formSchema = z.object({
 	vegan: z.boolean(),
 });
 
-export default function Admin() {
+export default function Edit() {
+	const { edit } = useEdit();
 	const router = useRouter();
 	const [img, setImg] = useState('');
 	const [isTrue, setIsTrue] = useState(false);
 
+	useEffect(() => setImg(edit.image), [edit.image]);
+
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			title: '',
-			image: '',
-			time: '',
-			description: '',
+			title: edit.title,
+			image: img,
+			time: JSON.stringify(edit.time),
+			description: edit.description,
 			vegan: false,
 		},
 	});
@@ -51,27 +55,27 @@ export default function Admin() {
 		values.image = img;
 
 		const data = {
+			id: edit._id,
 			title: values.title,
-			image: values.image,
+			image: img,
 			time: values.time,
 			description: values.description,
 			vegan: isTrue,
+			__v: edit.__v,
 		};
 
-		if (values.image !== '') {
-			const res = await axios.post('/api', JSON.stringify(data), {
-				headers: { 'Content-Type': 'application/json' },
-			});
-			if (res.status === 200) {
-				router.push('/');
-			}
+		const res = await axios.put('/api', JSON.stringify(data), {
+			headers: { 'Content-Type': 'application/json' },
+		});
+		if (res.status === 200) {
+			router.push('/');
 		}
 	}
 
 	return (
 		<main>
 			<h2>
-				Hi! <span className='text-yellow-400'>Admin.</span>
+				<span className='text-yellow-400'>Edit! </span>Recipe
 			</h2>
 			<Form {...form}>
 				<form
@@ -188,7 +192,7 @@ export default function Admin() {
 							</FormItem>
 						)}
 					/>
-					<Button type='submit'>Add Recipe</Button>
+					<Button type='submit'>Save Changes</Button>
 				</form>
 			</Form>
 		</main>

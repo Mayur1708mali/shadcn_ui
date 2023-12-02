@@ -1,7 +1,6 @@
 'use client';
 
 import { PropsWithChildren, createContext, useContext, useState } from 'react';
-import { Recipe } from '../../types';
 
 type EditState = {
 	edit: Recipe;

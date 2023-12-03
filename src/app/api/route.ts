@@ -1,13 +1,25 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connect } from '@/dbconfig/dbconfig';
 import Recipe from '@/models/RecipeModel';
+import { cookies } from 'next/headers';
 
 connect();
 
 export async function GET() {
 	const allRecipes = await Recipe.find();
 
-	return NextResponse.json(allRecipes);
+	let tok: string = 'Rinky';
+
+	const cookieStore = cookies();
+	const cookie = cookieStore.get('token');
+
+	if (cookie !== undefined) {
+		tok = cookie?.value;
+	}
+
+	const response = NextResponse.json({ allRecipes, tok });
+
+	return response;
 }
 
 export async function POST(request: NextRequest) {

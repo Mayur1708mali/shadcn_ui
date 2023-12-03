@@ -27,14 +27,21 @@ import { EditContext } from '@/context/EditContext';
 export default function Home() {
 	const [recipes, setRecipes] = useState<Recipe[]>([]);
 	const [loading, setLoading] = useState<Boolean>(true);
+	const [token, setToken] = useState('');
 
 	const { setEdit } = useContext(EditContext) as EditState;
 
 	useEffect(() => {
 		async function getRecipies() {
 			const res = await axios.get('/api');
-			const result: Recipe[] = res.data;
+			const result: Recipe[] = res.data.allRecipes;
+
 			setRecipes(result);
+
+			if (res.data.tok !== 'Rinky') {
+				setToken(res.data.tok);
+			}
+
 			setLoading(false);
 		}
 		getRecipies();
@@ -69,23 +76,25 @@ export default function Home() {
 										</CardDescription>
 									</div>
 								</CardHeader>
-								<div className='flex flex-col gap-4 mt-2'>
-									<Button
-										variant='outline'
-										onClick={() => {
-											setEdit(recipe);
-										}}
-										className='mr-4 p-2 h-8 transition ease-in-out delay-150  translate-x-5 group-hover:-translate-x-2  duration-300 opacity-0 group-hover:opacity-100'>
-										<Link href='/edit'>
-											<Pencil className=' w-4 h-4' />
-										</Link>
-									</Button>
-									<DeleteButton
-										recipe={recipe}
-										recipes={recipes}
-										setRecipes={setRecipes}
-									/>
-								</div>
+								{token !== '' ? (
+									<div className='flex flex-col gap-4 mt-2'>
+										<Button
+											variant='outline'
+											onClick={() => {
+												setEdit(recipe);
+											}}
+											className='mr-4 p-2 h-8 transition ease-in-out delay-150  translate-x-5 group-hover:-translate-x-2  duration-300 opacity-0 group-hover:opacity-100'>
+											<Link href='/edit'>
+												<Pencil className=' w-4 h-4' />
+											</Link>
+										</Button>
+										<DeleteButton
+											recipe={recipe}
+											recipes={recipes}
+											setRecipes={setRecipes}
+										/>
+									</div>
+								) : null}
 							</div>
 							<CardContent>
 								<p>{recipe.description}</p>

@@ -8,7 +8,7 @@ connect();
 export async function GET() {
 	const allRecipes = await Recipe.find();
 
-	let tok: string = 'Rinky';
+	let tok: string = 'Rinku';
 
 	const cookieStore = cookies();
 	const cookie = cookieStore.get('token');

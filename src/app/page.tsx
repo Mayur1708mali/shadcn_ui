@@ -38,7 +38,7 @@ export default function Home() {
 
 			setRecipes(result);
 
-			if (res.data.tok !== 'Rinky') {
+			if (res.data.tok !== 'Rinku') {
 				setToken(res.data.tok);
 			}
 
